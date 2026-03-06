@@ -1,4 +1,4 @@
-// --- 1. Three.js Animated Background ---
+ // --- 1. Three.js Subtle Background (Professional White Theme) ---
 const canvas = document.getElementById('bg-canvas');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -7,62 +7,56 @@ const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 
-// Particles
-const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 700;
-const posArray = new Float32Array(particlesCount * 3);
+// Particles - Blue/Grey Clean Dots
+const geometry = new THREE.BufferGeometry();
+const count = 1000;
+const posArray = new Float32Array(count * 3);
 
-for(let i = 0; i < particlesCount * 3; i++) {
-    posArray[i] = (Math.random() - 0.5) * 15; // Spread
+for(let i = 0; i < count * 3; i++) {
+    posArray[i] = (Math.random() - 0.5) * 10;
 }
 
-particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-const particlesMaterial = new THREE.PointsMaterial({
-    size: 0.02,
-    color: 0xff0033,
+geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+const material = new THREE.PointsMaterial({
+    size: 0.015,
+    color: 0x2563eb, // Blue particles
     transparent: true,
-    opacity: 0.8,
+    opacity: 0.6
 });
 
-const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+const particlesMesh = new THREE.Points(geometry, material);
 scene.add(particlesMesh);
-
-// Grid Floor
-const gridHelper = new THREE.GridHelper(20, 20, 0xff0033, 0x444444);
-gridHelper.rotation.x = Math.PI / 2.5;
-gridHelper.position.y = -2;
-scene.add(gridHelper);
 
 camera.position.z = 3;
 
-// Mouse Interaction
+// Mouse Movement Effect
 let mouseX = 0;
 let mouseY = 0;
 
 document.addEventListener('mousemove', (event) => {
-    mouseX = event.clientX / window.innerWidth - 0.5;
-    mouseY = event.clientY / window.innerHeight - 0.5;
+    mouseX = event.clientX * 0.0005;
+    mouseY = event.clientY * 0.0005;
 });
 
-// Animation Loop
 const clock = new THREE.Clock();
 
 function animate() {
     const elapsedTime = clock.getElapsedTime();
-
+    
     particlesMesh.rotation.y = elapsedTime * 0.05;
-    particlesMesh.rotation.x = mouseY * 0.2;
-    particlesMesh.rotation.y += mouseX * 0.2;
-
-    // Gentle wave effect
-    gridHelper.position.z = (elapsedTime * 0.2) % 1;
+    particlesMesh.rotation.x = mouseY;
+    particlesMesh.rotation.y += mouseX;
+    
+    // Wave motion
+    particlesMesh.position.y = Math.sin(elapsedTime * 0.5) * 0.1;
 
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
 }
 animate();
 
-// Resize Handler
+// Handle Resize
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -70,109 +64,116 @@ window.addEventListener('resize', () => {
 });
 
 
-// --- 2. Cinematic Intro Animation (GSAP) ---
-const timeline = gsap.timeline();
-
-timeline.to(".neon-line", { width: "100%", duration: 1, ease: "power2.inOut" })
-        .from(".glitch", { opacity: 0, y: 20, duration: 1 })
-        .from(".fade-text", { opacity: 0, duration: 1 })
-        .to("#intro-overlay", { opacity: 0, duration: 1, delay: 1, pointerEvents: "none" })
-        .from("#hero", { opacity: 0, y: 50, duration: 1 });
-
-
-// --- 3. 3D Rotating Carousel ---
+// --- 2. Carousel Logic (3 Specific Images) ---
 const carousel = document.querySelector('.carousel');
 const items = document.querySelectorAll('.carousel-item');
-const radius = 250; // Distance from center
-let currdeg = 0;
+const radius = 220; // Distance from center
 
-// Arrange items in a circle
+// Position items in 3D circle
 items.forEach((item, index) => {
-    const angle = (360 / items.length) * index;
+    // 4 items (3 images + 1 duplicate for full circle effect or just spacing)
+    // Using 4 divisions to make it square/circular
+    const angle = index * 90; 
     item.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
 });
 
-// Auto Rotate
+let currDeg = 0;
 function rotateCarousel() {
-    currdeg -= 0.5; // Speed
-    carousel.style.transform = `rotateY(${currdeg}deg)`;
+    currDeg -= 0.2; // Slow smooth rotation
+    carousel.style.transform = `rotateY(${currDeg}deg)`;
     requestAnimationFrame(rotateCarousel);
 }
 rotateCarousel();
 
-// Swipe Support for Mobile
-let touchStartX = 0;
-let touchEndX = 0;
 
-document.querySelector('.carousel-container').addEventListener('touchstart', e => {
-    touchStartX = e.changedTouches[0].screenX;
-});
-
-document.querySelector('.carousel-container').addEventListener('touchend', e => {
-    touchEndX = e.changedTouches[0].screenX;
-    if (touchStartX - touchEndX > 50) currdeg -= 60; // Swipe Left
-    if (touchStartX - touchEndX < -50) currdeg += 60; // Swipe Right
-});
-
-
-// --- 4. Scroll Story Animation ---
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.scroll-reveal').forEach((el) => observer.observe(el));
-
-
-// --- 5. AI Chatbot Logic ---
+// --- 3. Advanced Chatbot Logic (Bangla + English) ---
 const chatToggle = document.getElementById('chat-toggle');
-const chatContainer = document.getElementById('chatbot-container');
+const chatWindow = document.querySelector('.chat-window');
 const closeChat = document.getElementById('close-chat');
-const chatInput = document.getElementById('chat-input');
 const sendBtn = document.getElementById('send-btn');
+const chatInput = document.getElementById('chat-input');
 const chatBody = document.getElementById('chat-body');
 
-// Toggle Chat
-chatToggle.addEventListener('click', () => chatContainer.classList.add('active'));
-closeChat.addEventListener('click', () => chatContainer.classList.remove('active'));
+chatToggle.addEventListener('click', () => chatWindow.classList.add('active'));
+closeChat.addEventListener('click', () => chatWindow.classList.remove('active'));
 
-// Message Logic
-function addMessage(text, sender) {
+// Message Sender
+function addMessage(text, type) {
     const div = document.createElement('div');
-    div.classList.add('msg', sender);
+    div.classList.add('msg', type);
     div.innerText = text;
     chatBody.appendChild(div);
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-function botReply(text) {
-    const lowerText = text.toLowerCase();
-    let reply = "I didn't quite catch that. Try asking about Alamin's services or contact info.";
+// Bot Brain (Response Logic)
+function getBotResponse(input) {
+    const text = input.toLowerCase();
 
-    if (lowerText.includes('who') || lowerText.includes('alamin')) {
-        reply = "Alamin Khan is a 23-year-old Freelance Web Developer from Manikganj, passionate about futuristic UI.";
-    } else if (lowerText.includes('service') || lowerText.includes('offer')) {
-        reply = "He offers Frontend Development, UI/UX Animation, and Website Optimization.";
-    } else if (lowerText.includes('contact') || lowerText.includes('hire')) {
-        reply = "You can contact him via WhatsApp: 01326251753 or Facebook.";
-    } else if (lowerText.includes('hello') || lowerText.includes('hi')) {
-        reply = "Hello there! How can I help you today?";
+    // Keywords mapping
+    const greetings = ['hi', 'hello', 'salam', 'assalamu alaikum', 'kemon', 'how are you'];
+    const identity = ['name', 'nam', 'who', 'tumi ke', 'parichay', 'identity'];
+    const owner = ['alamin', 'owner', 'malik', 'sir'];
+    const info = ['age', 'boyosh', 'old', 'birthday'];
+    const location = ['home', 'bari', 'thaken', 'live', 'address', 'manikganj', 'location'];
+    const work = ['work', 'kaj', 'profession', 'ki koren', 'job', 'service', 'offer'];
+    const skills = ['skill', 'pare', 'language', 'tech', 'technology'];
+    const contact = ['contact', 'jogajog', 'number', 'phone', 'whatsapp', 'facebook', 'email', 'hire'];
+    
+    // Logic
+    if (greetings.some(w => text.includes(w))) {
+        return "ওয়ালাইকুম আসসালাম! আমি আল আমিন স্যারের পার্সোনাল এসিস্ট্যান্ট। আমি ভালো আছি, আপনি কেমন আছেন?";
+    }
+    
+    if (identity.some(w => text.includes(w))) {
+        return "আমি একটি AI চ্যাটবট, আমাকে তৈরি করেছেন আল আমিন স্যার।";
     }
 
-    setTimeout(() => addMessage(reply, 'bot'), 500);
+    if (info.some(w => text.includes(w))) {
+        return "আল আমিন স্যারের বয়স ২৩ বছর।";
+    }
+
+    if (location.some(w => text.includes(w))) {
+        return "স্যারের বাসা মানিকগঞ্জ, বাংলাদেশ।";
+    }
+
+    if (work.some(w => text.includes(w))) {
+        return "আল আমিন স্যার একজন প্রফেশনাল ফ্রিল্যান্স ওয়েব ডেভেলপার। তিনি ওয়েবসাইট ডিজাইন, ডেভেলপমেন্ট এবং অপ্টিমাইজেশন এর কাজ করেন।";
+    }
+
+    if (skills.some(w => text.includes(w))) {
+        return "স্যারের স্কিলগুলো হলো: HTML, CSS, JavaScript, React, এবং Creative Animation (GSAP/Three.js)।";
+    }
+
+    if (contact.some(w => text.includes(w))) {
+        return "স্যারের সাথে যোগাযোগ করতে পারেন:\nWhatsApp: 01326251753\nঅথবা পেজের নিচের ফেসবুক বাটনে ক্লিক করুন।";
+    }
+
+    // Default Fallback for Unknown Topics
+    return "দুঃখিত, আমি আল আমিন স্যার ছাড়া অন্য কোনো বিষয় সম্পর্কে জানিনা। দয়া করে স্যারের কাজ বা যোগাযোগ নিয়ে প্রশ্ন করুন।";
 }
 
-sendBtn.addEventListener('click', () => {
-    const text = chatInput.value;
-    if (text.trim() === "") return;
-    addMessage(text, 'user');
-    botReply(text);
+// Event Listeners for Chat
+function handleChat() {
+    const userText = chatInput.value.trim();
+    if (!userText) return;
+
+    addMessage(userText, 'user');
     chatInput.value = "";
+
+    // Simulate thinking delay
+    setTimeout(() => {
+        const botText = getBotResponse(userText);
+        addMessage(botText, 'bot');
+    }, 600);
+}
+
+sendBtn.addEventListener('click', handleChat);
+chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleChat();
 });
 
-chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendBtn.click();
-});
+// --- 4. Intro Animations (GSAP) ---
+gsap.from(".navbar", { y: -100, duration: 1, ease: "power2.out" });
+gsap.from(".hero-text", { x: -100, opacity: 0, duration: 1, delay: 0.5 });
+gsap.from(".carousel-container", { scale: 0, opacity: 0, duration: 1.5, delay: 0.5, ease: "back.out(1.7)" });
