@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alamin Khan | Future Web Dev</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 3D Background Container -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Intro Overlay -->
+    <div id="intro-overlay">
+        <div class="intro-content">
+            <div class="neon-line"></div>
+            <h1 class="glitch" data-text="ALAMIN KHAN">ALAMIN KHAN</h1>
+            <p class="fade-text">Freelance Web Developer</p>
+        </div>
+    </div>
+
+    <!-- Floating Social Icons -->
+    <div class="social-sidebar">
+        <a href="https://wa.me/8801326251753" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.facebook.com/share/1DSX8izG6t/" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-info">
+                <h1 class="hero-name">ALAMIN KHAN</h1>
+                <div class="info-grid">
+                    <div class="info-item"><i class="fas fa-user-clock"></i> 23 Years Old</div>
+                    <div class="info-item"><i class="fas fa-map-marker-alt"></i> Manikganj, BD</div>
+                </div>
+                <h2 class="hero-role">Freelance Web Developer</h2>
+            </div>
+
+            <!-- 3D Carousel -->
+            <div class="carousel-container">
+                <div class="carousel">
+                    <!-- Placeholders - Replace src with your actual images -->
+                    <div class="carousel-item"><img src="https://placehold.co/300x400/1a1a1a/ff0033?text=Alamin+1" alt="Alamin"></div>
+                    <div class="carousel-item"><img src="https://placehold.co/300x400/1a1a1a/ff0033?text=Alamin+2" alt="Alamin"></div>
+                    <div class="carousel-item"><img src="https://placehold.co/300x400/1a1a1a/ff0033?text=Alamin+3" alt="Alamin"></div>
+                    <div class="carousel-item"><img src="https://placehold.co/300x400/1a1a1a/ff0033?text=Alamin+4" alt="Alamin"></div>
+                    <div class="carousel-item"><img src="https://placehold.co/300x400/1a1a1a/ff0033?text=Alamin+5" alt="Alamin"></div>
+                </div>
+            </div>
+
+            <!-- Contact Buttons -->
+            <div class="cta-buttons">
+                <a href="https://wa.me/8801326251753" target="_blank" class="btn-neon">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="https://www.facebook.com/share/1DSX8izG6t/" target="_blank" class="btn-neon">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+            </div>
+        </section>
+
+        <!-- Story Sections -->
+        <section id="about" class="story-section">
+            <div class="holographic-card scroll-reveal">
+                <h2><i class="fas fa-user-astronaut"></i> About Me</h2>
+                <p>I am a passionate developer from Manikganj, dedicated to building the futuristic web. My code is clean, my designs are sharp, and my focus is on user experience.</p>
+            </div>
+        </section>
+
+        <section id="skills" class="story-section">
+            <div class="holographic-card scroll-reveal">
+                <h2><i class="fas fa-code"></i> My Skills</h2>
+                <div class="skill-tags">
+                    <span>HTML5</span>
+                    <span>CSS3</span>
+                    <span>JavaScript</span>
+                    <span>React</span>
+                    <span>Three.js</span>
+                    <span>GSAP</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="story-section">
+            <div class="holographic-card scroll-reveal">
+                <h2><i class="fas fa-laptop-code"></i> My Services</h2>
+                <ul class="service-list">
+                    <li>Frontend Development</li>
+                    <li>UI/UX Animation</li>
+                    <li>Responsive Design</li>
+                    <li>Website Optimization</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- AI Chatbot -->
+    <div id="chatbot-container">
+        <div id="chat-header">
+            <span><i class="fas fa-robot"></i> Alamin AI</span>
+            <button id="close-chat"><i class="fas fa-minus"></i></button>
+        </div>
+        <div id="chat-body">
+            <div class="msg bot">Hello! I'm Alamin's AI assistant. Ask me anything.</div>
+        </div>
+        <div id="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Type a message...">
+            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <button id="chat-toggle"><i class="fas fa-comment-dots"></i></button>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+  </html>
